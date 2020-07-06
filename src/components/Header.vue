@@ -6,7 +6,8 @@
       </div>
       <nav>
           <ul>
-              <li v-for="link in navLinks" :key="link.name"><router-link :to="link.link">{{link.name}}</router-link></li>
+              <li><router-link :to="{name: 'homeLink'}">Home</router-link></li>
+                <li><router-link :to="{name: 'menuLink'}">Menu </router-link></li>
 
           </ul>
       </nav>
@@ -16,14 +17,6 @@
 <script>
 export default {
     name: 'Header',
-    data(){
-        return {
-            navLinks: [
-                {name: 'Home', link: '/'},
-                {name: 'Menu', link: '/menu'},
-            ]
-        }
-    }
 }
 </script>
 
