@@ -1,8 +1,8 @@
 <template>
   <div class="admin-wrapper">
-      <div class="current-user-wrapper">
-          <span>Logged in as: </span>
-          <button type="button" @click.prevent="signOut">Sign out</button>
+      <div class="current-user-wrapper"  v-if="currentUser">
+          <span>Logged in as: {{currentUser.email}} </span>
+          <button  type="button" @click.prevent="signOut">Sign out</button>
       </div>
       <NewItem/>
       <div class="menu-wrapper">
@@ -14,16 +14,16 @@
                         <th>Remove from menu</th>  
                     </tr>
               </thead>
-              <tbody>
+              <tbody v-for="item in getMenuItems" :key="item.name">
                   <tr>
-                      <td>Pizza Name</td>
+                      <td>{{item.name}}</td>
                       <td><button type="button">&times;</button></td>
                   </tr>
               </tbody>
           </table>
       </div>
       <div class="orders-wrapper">
-          <h3>Current Orders ()</h3>
+          <h3>Current Orders ({{numberOfOrders}})</h3>
           <table>
               <thead>
                   <tr>
@@ -56,22 +56,32 @@
 <script>
 import NewItem from './NewItem'
 import Login from './Login'
-import {firebaseAuth} from '../firebase'
+import {store} from '../store/store'
+import { mapGetters } from "vuex";
+
 export default {
     name: 'Admin',
     components: {
         NewItem, Login
     },
-    data(){},
-    methods: {
-        async signOut(){
-            try {
-                await firebaseAuth.signOut()
-            } catch (error) {
-                alert(`error signing out, ${error}`)                
-            }
+    data(){
+        return {
+            name: 'Chris'
         }
     },
+    computed:{
+        ...mapGetters(['getMenuItems', 'numberOfOrders', 'currentUser'])
+    },
+    beforeRouteEnter (to, from, next) {
+        next(vm => {
+        alert(`Hi, ${vm.name}`)
+        })
+    },
+    methods: {
+        async signOut(){
+            store.dispatch('signOut')
+    },
+    }
 }
 </script>
 

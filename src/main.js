@@ -1,26 +1,27 @@
 import Vue from 'vue'
 import App from './App.vue'
 import VueRouter from 'vue-router'
-import Home from './components/Home'
-import Menu from './components/Menu'
-import Admin from './components/Admin'
-
+import {routes} from './routes'
+import {store} from './store/store'
 
 Vue.config.productionTip = false
 Vue.use(VueRouter);
 
-const routes = [
-  {path: '/', name:'homeLink', component: Home},
-  {path: '/menu', name:'menuLink', component: Menu},
-  {path: '/admin', component: Admin},
-  {path: '*', redirect: '/'}
-]
+
 const router = new VueRouter({
   routes,
-  mode: 'history'
+  mode: 'history',
+  scrollBehavior(to){
+    if(to.hash){
+      return {selector: to.hash}
+    } 
+  }
+})
+router.beforeEach((to, from, next) => {
+   next()
 })
 
 new Vue({
-  router,
+  router, store,
   render: h => h(App),
 }).$mount('#app')

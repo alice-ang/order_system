@@ -30,18 +30,16 @@
                     <tr>
                         <td>{{item.name}}  {{item.size}}"</td>
                         <td>{{item.price * item.quantity}} $</td>
-                    </tr>
-                    <tr>
                         <td>
                             <button @click="decreaseQuantity(item)">&#8722;</button>
                             <span> {{item.quantity}} </span>
                             <button @click="increaseQuantity(item)">&#43;</button>
                         </td>
-                        </tr>
+                    </tr>
                 </tbody>
             </table>
             <p>Order total: </p>
-          <button class="">Place Order</button>
+          <button class="" @click="addNewOrder">Place Order</button>
           </div>
             <div v-else>
                 <p>{{basketText}}</p>
@@ -51,41 +49,18 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
     name: 'Menu',
     data(){
         return {
             basketText: "Your basket is empty",
             basket: [],
-            getMenuItems: {
-                1: {
-                    name: 'Hawaii',
-                    description: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Deleniti, quas incidunt. Dolores tempore ipsa voluptas, praesentium provident magnam doloribus aliquid maiores id est velit eligendi earum!',
-                    options: 
-                    [
-                        {
-                            size: '9',
-                            price: '2'
-                        },
-                        {
-                            size: '12',
-                            price: '5'
-                        }
-                    ]
-                },
-                2: {
-                    name: 'Pepperoni',
-                    description: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Deleniti, quas incidunt. Dolores tempore ipsa voluptas, praesentium provident magnam doloribus aliquid maiores id est velit eligendi earum!',
-                    options: 
-                    [
-                        {
-                            size: '9',
-                            price: '2'
-                        }
-                    ]
-                }                
-            }
         }
+    },
+    computed: {
+        ...mapGetters(['getMenuItems'])
     },
     methods: {
         async addToBasket(item, option){
@@ -115,6 +90,11 @@ export default {
             if(item.quantity === 0){
                 this.removeFromBasket(item);
             }
+        },
+        addNewOrder(){
+            this.$store.commit('addOrder', this.basket)
+            this.basket = []
+            this.basketText = 'Thank you! Your order has been placed :) '
         }
     },
 
@@ -140,16 +120,25 @@ export default {
     flex-direction: column;
     align-items: center;
 }
+.basket table {
+    border-collapse: collapse;
+}
 
 .menu table {
+    border-collapse: collapse;
     text-align: justify;
+}
+.menu table tr:nth-child(n+3) { 
+  border-bottom: 2px solid grey;
+}
+.menu td {
+    padding: .5em;
+    margin: .5em;
+
 }
 .basket tr {
     margin: 1em 0;
-}
-menu table tr:nth-child(2) {
-    display: flex;
-    justify-content: center;
+    border-bottom: 2px solid grey;
 }
 @media screen and (min-width: 900px) {
     .menu-wrapper {
