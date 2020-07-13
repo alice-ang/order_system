@@ -1,6 +1,6 @@
 <template>
     <form >
-        <h3>Add new Pizza: </h3>
+        <h2>Add new Item: </h2>
         <div class="form-group">
             <label for="name">Name</label>
             <input type="text" id="name" v-model="newItem.name">
@@ -11,7 +11,7 @@
         </div>
         <p>Option: 1</p>
         <div class="form-group">
-            <label for="size1">Size (")</label>
+            <label for="size1">Size (cm)</label>
             <input type="text" id="size1" v-model="newItem.options[0].size">
         </div>
         <div class="form-group">
@@ -20,7 +20,7 @@
         </div>
         <p>Option: 2</p>
         <div class="form-group">
-            <label for="size2">Size (")</label>
+            <label for="size2">Size (cm)</label>
             <input type="text" id="size2" v-model="newItem.options[1].size">
         </div>
         <div class="form-group">
@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import {dbMenuRef} from '../firebase'
+import {store} from '../store/store'
 export default {
     name: 'NewItem',
     data(){
@@ -56,7 +56,8 @@ export default {
     },
     methods: {
         add(){
-            dbMenuRef.add(this.newItem);
+            //dbMenuRef.add(this.newItem);
+            store.dispatch('addMenuItem', this.newItem)
         }
     },
 }
@@ -65,11 +66,9 @@ export default {
 <style scoped>
 form {
     display: flex;
-    width: 50%;
-    margin: 0 auto;
+    padding: 1em;
     justify-content: flex-start;
     flex-direction: column;
-    border: 1px solid black;
 }
 .form-group {
     margin: 1em 0;
@@ -77,10 +76,29 @@ form {
 }
 label {
     display: block;
+    font-weight: bolder;
 }
-input, textarea {
-    padding: 5px;
+h2{
+    text-align: center;
+}
+input[type=text],  textarea {
     box-sizing: border-box;
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+button {
+    background-color: #4CAF50;
+  color: white;
+  padding: 16px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
 }
 
 </style>

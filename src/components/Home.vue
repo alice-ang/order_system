@@ -3,21 +3,21 @@
       <div class="background">
         <div class="background-overlay">
             <h2>Welcome to Pizza Planet</h2>
-            <img src="https://source.unsplash.com/200x200/?pizza" alt="pizza">
-            <h3>Feeling hungry</h3>
+            <h3>Feeling hungry?</h3>
             <button class="order-btn" @click="goToMenu">Let's Order!</button>
         </div>
       </div>
         <section class="container">
             <h1>What we offer</h1>
             <div class="category-wrapper">
-                <div class="card" v-for="x in 3" :key="x">
-                    <div class="card-body"></div>
-                    <div class="card-footer">
-                        <div class="footer-text">
-                            hello
-                        </div>
+                <div class="card" v-for="category in categories" :key="category.name">
+                   <router-link :to="{name: 'menuLink'}">
+                    <div class="card-body">
+                        <img v-bind:src="`https://source.unsplash.com/500x500/?${category.name}`" alt="">
+                        <h1>{{category.name}}</h1>
                     </div>
+                        </router-link>
+
                 </div>
             </div>
         </section>
@@ -27,6 +27,21 @@
 <script>
 export default {
     name: 'Home',
+    data(){
+        return {
+            categories: [
+                {
+                    name: 'Kebab'
+                }, 
+                {
+                    name: 'Pizza'
+                },
+                {
+                    name: 'Sallad'
+                }
+            ],
+        }
+    },
     methods: {
         goToMenu(){
             this.$router.push({name: 'menuLink'})
@@ -52,13 +67,11 @@ export default {
     padding: 1em;
     opacity: 0.8;
     margin: 0 auto;
+    border-radius: 5px;
 }
-.background-overlay img{
-    max-width: 15%;
-    display: block;
-    justify-self: center;
-}
+
 .order-btn {
+    font-weight: bold;
     background: #ff7799
 }
 .container {
@@ -67,47 +80,40 @@ export default {
 .category-wrapper {
     display: flex;
     justify-content: center;
-    margin: 1em;
     flex-direction: row;
     flex-wrap: wrap;
 }
 
 .card {
-  position: relative;
-  height: 200px;
-  width: 200px;
-  z-index: 0;
-  overflow: hidden;
-    background: #ff7799;
-    margin: 1em;
-}
-
-  .card-footer {
-    background: white;
-    position: absolute;
-    width: inherit;
-    height: inherit;
-    clip-path: inset(100% 0% 0%);
-    -webkit-clip-path: inset(100% 0% 0%);
-    transition: all 0.5s ease-in-out;
-}
-.footer-text {
-    padding-top: 140px;
+    margin-top: 1em;
+    position: relative;
+    height: 300px;
+    width: 300px;
+    z-index: 0;
+    overflow: hidden;
 }
 .card:hover {
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    cursor: pointer;
 }
-.card:hover .card-footer {
-      opacity: 1;
-      clip-path: inset(60% 0% 0%);
-      -webkit-clip-path: inset(60% 0% 0%);
 
+.card h1 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
 }
+
 @media screen and (min-width: 900px) {
     .container {
         max-width: 70%;
         margin: 0 auto;
     }
-
+    .card {
+    margin: 1em;
+    }
+    .category-wrapper {
+    margin: 1em;
+    }
 }
 </style>

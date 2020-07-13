@@ -1,9 +1,13 @@
 <template>
-  <div class="menu-wrapper">
+    <div>
+        <div class="menu-image-wrapper">
+            <img src="https://source.unsplash.com/1920x1080/?pizza_restaurant" alt="">
+            <h1>Menu</h1>
+        </div>
+          <div class="menu-wrapper">
       <!-- Menu -->
       <div class="menu">
-          <h3>Authentic Handmade Pizza</h3>
-          <table v-for="item in getMenuItems" :key="item.name">
+            <table v-for="item in getMenuItems" :key="item.name">
               <tbody>
                   <tr>
                       <td><strong>{{item.name}}</strong></td>
@@ -12,10 +16,10 @@
                       <td><small>{{item.description}}</small></td>
                   </tr>
                     <tr v-for="(option, index) in item.options" :key="option[index]">
-                        <td>{{option.size}}"</td>
-                        <td>{{option.price}}$</td>
+                        <td>{{option.size}} cm</td>
+                        <td class="price">{{option.price | currency}}</td>
                         <td>
-                            <button @click="addToBasket(item, option)">&#43;</button>
+                            <button @click="addToBasket(item, option)" class="green_btn">&#43;</button>
                         </td>
                   </tr>
               </tbody>
@@ -28,39 +32,54 @@
             <table>
                 <tbody v-for="(item, index) in basket" :key="index">
                     <tr>
-                        <td>{{item.name}}  {{item.size}}"</td>
-                        <td>{{item.price * item.quantity}} $</td>
+                        <td>{{item.name}}  {{item.size}} cm</td>
+                        <td>{{item.price * item.quantity | currency}} </td>
                         <td>
-                            <button @click="decreaseQuantity(item)">&#8722;</button>
+                            <button @click="decreaseQuantity(item)" class="red_btn">&#8722;</button>
                             <span> {{item.quantity}} </span>
-                            <button @click="increaseQuantity(item)">&#43;</button>
+                            <button @click="increaseQuantity(item)" class="green_btn">&#43;</button>
                         </td>
                     </tr>
                 </tbody>
             </table>
-            <p>Order total: </p>
-          <button class="" @click="addNewOrder">Place Order</button>
+            <div class="additional-wrapper">
+                <label for="additional">Additional info</label><br>
+                <textarea name="additional" id="additional" v-model="additional"></textarea>
+            </div>
+            <div class="order">
+                <p>Order total: <strong>{{total | currency}}</strong> </p>
+                <button @click="addNewOrder" class="green_btn">Place Order</button>
+            </div>
           </div>
             <div v-else>
-                <p>{{basketText}}</p>
+            <p>{{basketText}}</p>
         </div>
       </div>
   </div>
+    </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-
+import {store} from '../store/store'
 export default {
     name: 'Menu',
     data(){
         return {
             basketText: "Your basket is empty",
+            additional: '',
             basket: [],
         }
     },
     computed: {
-        ...mapGetters(['getMenuItems'])
+        ...mapGetters(['getMenuItems']),
+        total(){
+            let totalCost = 0;
+            this.basket.map(item => {
+                totalCost += item.quantity * item.price
+            })
+            return totalCost
+        }
     },
     methods: {
         async addToBasket(item, option){
@@ -92,7 +111,12 @@ export default {
             }
         },
         addNewOrder(){
-            this.$store.commit('addOrder', this.basket)
+            const order = {
+                items: {...this.basket},
+                additional: this.additional,
+                createdAt: new Date(),
+            }
+            store.dispatch('addNewOrder', order);
             this.basket = []
             this.basketText = 'Thank you! Your order has been placed :) '
         }
@@ -111,35 +135,75 @@ export default {
 .menu, .basket{
     padding: 1em;
     margin: 1em;
-    background-color: #fff5e8
+    background-color: #fff5e8;
+    font-size: 1.2rem;
 
+}
+.additional-wrapper {
+    margin: 1em 0;
+}
+.additional-wrapper textarea {
+    width: 50%;
+    height: 100px;
+}
+
+.additional-wrapper, .order {
+    text-align: center;
 }
 
 .basket {
     display: flex;
     flex-direction: column;
-    align-items: center;
-}
-.basket table {
-    border-collapse: collapse;
+    flex-wrap: wrap;
+    text-align: center;
 }
 
-.menu table {
+.basket table, .menu table {
     border-collapse: collapse;
-    text-align: justify;
+    width: 100%;
+
 }
+.basket td, th {
+  border: 1px solid grey;
+  text-align: left;
+  padding: 8px;
+}
+
+.menu-image-wrapper {
+  position: relative;
+  text-align: center;
+  color: #ffffff;
+
+}
+.menu-image-wrapper h1 {
+    font-size: 5em;
+    transform: translate(-50%, -50%);
+      margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+.menu-image-wrapper img {
+    width: 100%;
+    max-height: 35vh;
+    object-fit: cover;
+}
+
+.menu {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
 .menu table tr:nth-child(n+3) { 
-  border-bottom: 2px solid grey;
+  border-bottom: 2px dotted grey;
 }
 .menu td {
     padding: .5em;
     margin: .5em;
 
 }
-.basket tr {
-    margin: 1em 0;
-    border-bottom: 2px solid grey;
-}
+
 @media screen and (min-width: 900px) {
     .menu-wrapper {
         flex-direction: row;
