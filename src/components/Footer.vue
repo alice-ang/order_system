@@ -93,7 +93,6 @@ section {
    position: relative;
   overflow: hidden;
   width: 100%;
-  min-height: 30vh;
 }
 iframe {
 position: absolute;
@@ -105,13 +104,12 @@ position: absolute;
   height: 100%;
 }
 .opening{
-    display: flex;
+   display: flex;
     align-items: center;    
     flex-wrap: wrap;
     flex-direction: column;
-    padding: 1em;
+    padding: 1em 0px;
     width: 100%;
-
 }
 #heart {
     color: #ff7799;
@@ -136,7 +134,7 @@ i:hover, a:hover {
         width: 60%;
     }
     .opening {
-        width: 30%;
+        width: 40%;
     }
 }
 </style>

@@ -1,6 +1,8 @@
 import Home from './components/Home'
-import Menu from './components/Menu'
-import Admin from './components/Admin'
+const Menu = () => import('./components/Menu')
+//import Menu from './components/Menu'
+const Admin = () => import('./components/Admin')
+//import Admin from './components/Admin'
 
 export const routes = [
     {path: '/', name:'homeLink', component: Home},

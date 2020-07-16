@@ -91,6 +91,8 @@ export default {
     width: 300px;
     z-index: 0;
     overflow: hidden;
+        box-shadow: 0 4px 6px 0 rgba(0,0,0,0.3);
+
 }
 .card:hover {
     cursor: pointer;

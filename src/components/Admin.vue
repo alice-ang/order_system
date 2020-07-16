@@ -103,6 +103,7 @@ export default {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
+    padding: 1em;
 }
 .orders-wrapper, .menu-wrapper {
     width: 100%;

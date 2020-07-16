@@ -6,7 +6,7 @@
         </div>
             <span id="icon" @click="navigation">&#x2630;</span>
           <ul>
-              <li><router-link :to="{name: 'homeLink'}">Home</router-link></li>
+              <li><router-link :to="{name: 'homeLink'}">Hem</router-link></li>
                 <li><router-link :to="{name: 'menuLink'}">Menu </router-link></li>
           </ul>
       </nav>
