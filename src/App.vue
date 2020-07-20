@@ -2,7 +2,6 @@
   <div id="app">
     <app-header/>
     <router-view></router-view>
-    <div class="info-block-wrapper"></div>
     <app-footer/>
   </div>
 </template>

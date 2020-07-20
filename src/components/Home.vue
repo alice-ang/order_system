@@ -7,8 +7,13 @@
             <button class="order-btn" @click="goToMenu">Let's Order!</button>
         </div>
       </div>
+
         <section class="container">
-            <h1>What we offer</h1>
+            <div id="about">
+              <h1>About Pizza Planet</h1>
+              <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Itaque praesentium vel nobis, necessitatibus quibusdam odio corrupti explicabo facilis ex eaque. Repellat culpa delectus qui accusantium ratione repellendus repudiandae minus at! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Possimus ipsam reiciendis eveniet dignissimos autem voluptate aspernatur, incidunt animi, distinctio molestiae culpa. Temporibus sit voluptates commodi quia ad. Ratione, numquam veniam?</p>
+          </div>
+            <h1>What we offer <i class="fas fa-hand-point-down"></i></h1>
             <div class="category-wrapper">
                 <div class="card" v-for="category in categories" :key="category.name">
                    <router-link :to="{name: 'menuLink'}">
@@ -74,8 +79,15 @@ export default {
     font-weight: bold;
     background: #ff7799
 }
-.container {
+.container, #about h1 {
     text-align: center;
+}
+#about {
+    padding: 1em;
+}
+#about p{
+     text-align: justify;
+
 }
 .category-wrapper {
     display: flex;
@@ -87,8 +99,8 @@ export default {
 .card {
     margin-top: 1em;
     position: relative;
-    height: 300px;
-    width: 300px;
+    height: 250px;
+    width: 250px;
     z-index: 0;
     overflow: hidden;
         box-shadow: 0 4px 6px 0 rgba(0,0,0,0.3);

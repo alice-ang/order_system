@@ -4,11 +4,16 @@
             <img src="https://source.unsplash.com/1920x1080/?pizza_restaurant" alt="">
             <h1>Menu</h1>
         </div>
-          <div class="menu-wrapper">
+    <div class="menu-wrapper">
       <!-- Menu -->
       <div class="menu">
             <table v-for="item in getMenuItems" :key="item.name">
               <tbody>
+                  <tr id="type">
+                      <td >
+                         <h2>{{getType(item.type)}}</h2> 
+                      </td>
+                  </tr>
                   <tr>
                       <td><strong>{{item.name}}</strong></td>
                   </tr>
@@ -16,9 +21,9 @@
                       <td><small>{{item.description}}</small></td>
                   </tr>
                     <tr v-for="(option, index) in item.options" :key="option[index]">
-                        <td>{{option.size}} cm</td>
-                        <td class="price">{{option.price | currency}}</td>
-                        <td>
+                        <td v-if="option.size">{{option.size}} cm</td>
+                        <td class="price" v-if="option.price">{{option.price | currency}}</td>
+                        <td v-if="option.size || option.price">
                             <button @click="addToBasket(item, option)" class="green_btn">&#43;</button>
                         </td>
                   </tr>
@@ -26,7 +31,7 @@
           </table>
       </div>
       <!-- Basket --> 
-      <div class="basket">
+      <div id="basket">
           <h3>Basket</h3>
           <div v-if="basket.length > 0">
             <table>
@@ -56,6 +61,7 @@
         </div>
       </div>
   </div>
+  <div class="fab" title="Cart" @click="showCart"><i class="fas fa-shopping-cart" v-if="this.basket.length <= 0"></i> <span v-else><strong>{{cartTotal()}}</strong></span></div>
     </div>
 </template>
 
@@ -80,6 +86,7 @@ export default {
             })
             return totalCost
         }
+
     },
     methods: {
         async addToBasket(item, option){
@@ -119,6 +126,21 @@ export default {
             store.dispatch('addNewOrder', order);
             this.basket = []
             this.basketText = 'Thank you! Your order has been placed :) '
+        },
+        getType(type){
+            return type.toString().toUpperCase();
+        },
+        cartTotal(){
+            return this.basket.length;
+        },
+        showCart(){
+            const basket = document.getElementById('basket');
+            console.log(basket.style.left);
+            if(basket.style.left != '-1500px'){
+                basket.style.left = '-1500px';
+            } else {
+                basket.style.left = '50%';
+            }
         }
     },
 
@@ -126,13 +148,12 @@ export default {
 </script>
 
 <style scoped>
-.menu-wrapper {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-    
+#type {
+    text-decoration: underline;
+    text-align: center;
 }
-.menu, .basket{
+
+.menu, #basket{
     padding: 1em;
     margin: 1em;
     background-color: #fff5e8;
@@ -150,20 +171,33 @@ export default {
 .additional-wrapper, .order {
     text-align: center;
 }
-
-.basket {
+.menu-wrapper {
+    position: relative;
+}
+#basket {
+    padding: 1em;
+    width: 80%;
+    margin: 0 auto;
+    max-height: 80vh;
+    position: fixed;
+    left: -1500px;
+    top: 50%;
+    transform: translate(-50%, -50%);
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
     text-align: center;
+    box-shadow: 0 4px 6px 0 rgba(0,0,0,0.3);
+    background-color: #ffffff;
+    transition: .6s ease-in-out;
+    overflow: scroll;
 }
 
-.basket table, .menu table {
+#basket table, .menu table {
     border-collapse: collapse;
     width: 100%;
 
 }
-.basket td, th {
+#basket td, th {
   border: 1px solid grey;
   text-align: left;
   padding: 8px;
@@ -190,6 +224,8 @@ export default {
 }
 
 .menu {
+    width: 90%;
+    margin: 0 auto;
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;
@@ -203,17 +239,40 @@ export default {
     margin: .5em;
 
 }
+.fab {
+   width: 70px;
+   height: 70px;
+   background-color: #ff7799;
+   border-radius: 50%;
+   box-shadow: 0 6px 10px 0 rgb(143, 143, 143);
+   line-height: 70px;
+   font-size: 25px;
+   color: white;
+   text-align: center;
+   position: fixed;
+   right: 30px;
+   bottom: 30px;
+  transition: all 0.1s ease-in-out;
+}
+.fab span {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+}
 
+.fab:hover {
+   box-shadow: 0 6px 14px 0 #666;
+   transform: scale(1.05);
+}
 @media screen and (min-width: 900px) {
     .menu-wrapper {
         flex-direction: row;
         justify-content: center;
     }
-    .menu {
-       width: 65vw;
+    #basket {
+        width: 50%;
+        left: -1500px;
+        top: 50%;
+        transform: translate(-50%, -50%);
     }
-    .basket {
-         width: 35vw;
-    }
+
 }
 </style>

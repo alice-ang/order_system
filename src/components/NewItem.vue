@@ -2,6 +2,14 @@
     <form >
         <h2>Add new Item: </h2>
         <div class="form-group">
+            <label for="type">Type</label>
+            <select name="types" id="types" v-model="newItem.type" v-on:change="newItem.type = $event.target.value">
+                <option value="pizza" selected="selected">Pizza</option>
+                <option value="kebab">Kebab</option>
+                <option value="sallad">Sallad</option>
+            </select>
+        </div>
+        <div class="form-group">
             <label for="name">Name</label>
             <input type="text" id="name" v-model="newItem.name">
         </div>
@@ -38,17 +46,18 @@ export default {
     data(){
         return {
             newItem: {
+                    type: 'Pizza',          
                     name: 'Eg. Hawaii',
                     description: 'Eg. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Deleniti, quas incidunt. Dolores tempore ipsa voluptas, praesentium provident magnam doloribus aliquid maiores id est velit eligendi earum!',
                     options: 
                     [
                         {
-                            size: '9',
-                            price: '2'
+                            size: '40',
+                            price: '90'
                         },
                                                 {
-                            size: '12',
-                            price: '5'
+                            size: '90',
+                            price: '110'
                         }
                     ]
             }
@@ -56,6 +65,7 @@ export default {
     },
     methods: {
         add(){
+            console.log(this.newItem);
             //dbMenuRef.add(this.newItem);
             store.dispatch('addMenuItem', this.newItem)
         }
@@ -81,7 +91,7 @@ label {
 h2{
     text-align: center;
 }
-input[type=text],  textarea {
+input[type=text],  textarea, select {
     box-sizing: border-box;
   width: 100%;
   padding: 15px;

@@ -32,25 +32,10 @@ export default {
             year: '',
             hours: [
                 {
-                    day: 'Monday',
+                    day: 'Monday - Friday',
                     time: '11:00 - 20:00'
                 },
-                {
-                    day: 'Tuesday',
-                    time: '11:00 - 20:00'
-                },
-                {
-                    day: 'Wednesday',
-                    time: '11:00 - 20:00'
-                },
-                {
-                    day: 'Thursday',
-                    time: '11:00 - 20:00'
-                },
-                {
-                    day: 'Friday',
-                    time: '11:00 - 20:00'
-                },
+
                 {
                     day: 'Saturday',
                     time: '12:00 - 18:00'
@@ -89,19 +74,13 @@ section {
     flex-wrap: wrap;
     flex-direction: row;
 }
-.frame-container {
-   position: relative;
-  overflow: hidden;
-  width: 100%;
-}
+
 iframe {
-position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
   width: 100%;
   height: 100%;
+}
+.frame-container {
+    width: 100%;
 }
 .opening{
    display: flex;

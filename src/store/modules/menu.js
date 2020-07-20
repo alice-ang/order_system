@@ -13,7 +13,7 @@ const mutations = {
 }
 const actions = {
     setMenuRef: firestoreAction(context => {
-        return context.bindFirestoreRef('menuItems', dbMenuRef)
+        return context.bindFirestoreRef('menuItems', dbMenuRef.orderBy("type"))
     }),
     addMenuItem: async(context, menuItem) => {
         try {

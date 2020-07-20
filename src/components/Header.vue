@@ -2,11 +2,11 @@
   <header>
       <nav>
         <div class="header_logo">
-            <h1 href="/">Pizza Planet</h1>
+            <h1 ><router-link :to="{name: 'homeLink'}">Pizza Planet</router-link></h1>
         </div>
             <span id="icon" @click="navigation">&#x2630;</span>
           <ul>
-              <li><router-link :to="{name: 'homeLink'}">Hem</router-link></li>
+              <li><router-link :to="{name: 'homeLink'}">Home</router-link></li>
                 <li><router-link :to="{name: 'menuLink'}">Menu </router-link></li>
           </ul>
       </nav>
@@ -42,7 +42,11 @@ nav {
     background-color: #ff7799;
     color: white;
 }
-
+h1 a {
+    text-decoration: none;
+    color: white;
+    line-height: 50px;
+}
 
 ul {
     display: flex;
@@ -61,7 +65,7 @@ ul li a {
     color: white;
     font-weight: bold;
 }
-a:hover {
+ul li a:hover {
     border-bottom: 1px solid white;
 }
 #icon {
